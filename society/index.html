@@ -29,11 +29,27 @@
   /* The entry form embeds here. Until M's questions + the form-handler (Tally/Google) are picked,
      this is the placeholder slot. Swap the .form-slot contents for the iframe embed. */
   .form-slot{
-    border:1.5px dashed var(--soft-gray); border-radius:12px;
-    padding:40px 24px; text-align:center; color:var(--warm-gray);
+    border:1px solid var(--soft-gray); border-radius:12px;
+    padding:30px 26px; color:var(--warm-gray);
     background:#fff;
   }
   .form-slot strong{color:var(--navy);}
+  .field{margin:0 0 18px; text-align:left;}
+  .field label{display:block; font-size:.92rem; color:var(--navy); margin:0 0 6px; font-weight:600;}
+  .field input, .field textarea{
+    width:100%; padding:11px 13px; border:1.5px solid var(--soft-gray);
+    border-radius:9px; font-size:1rem; font-family:inherit; color:var(--navy);
+    background:var(--cream);
+  }
+  .field input:focus, .field textarea:focus{outline:none; border-color:var(--gold);}
+  .field textarea{min-height:74px; resize:vertical;}
+  .submit{
+    display:block; width:100%; padding:14px; border:0; border-radius:10px;
+    background:var(--navy); color:var(--cream); font-size:1.05rem; cursor:pointer;
+    font-family:Georgia,serif; transition:background .15s ease;
+  }
+  .submit:hover{background:#16223a;}
+  .form-note{font-size:.84rem; color:var(--warm-gray); text-align:center; margin:14px 0 0;}
   .back{display:block; text-align:center; margin:34px 0; color:var(--warm-gray);}
   footer{margin:56px 0 36px; text-align:center; color:var(--warm-gray); font-size:.82rem;}
 </style>
@@ -50,8 +66,26 @@
     <p class="lede">Membership is by entry. Tell us a little about yourself and what you are reading, and we will be in touch.</p>
 
     <div class="form-slot">
-      <p><strong>Entry form coming shortly.</strong></p>
-      <p>The questions are being finalized. Check back soon to request your place.</p>
+      <form id="entry" onsubmit="return sendEntry(event)">
+        <div class="field">
+          <label for="nm">Your name</label>
+          <input id="nm" type="text" required autocomplete="name">
+        </div>
+        <div class="field">
+          <label for="em">Email</label>
+          <input id="em" type="email" required autocomplete="email">
+        </div>
+        <div class="field">
+          <label for="rd">What are you reading right now?</label>
+          <input id="rd" type="text">
+        </div>
+        <div class="field">
+          <label for="wy">A little about you, or why you'd like to join <span style="font-weight:400;color:var(--warm-gray)">(optional)</span></label>
+          <textarea id="wy"></textarea>
+        </div>
+        <button class="submit" type="submit">Request my place &rarr;</button>
+        <p class="form-note">This opens your email so you can send your entry to us. We will be in touch.</p>
+      </form>
     </div>
 
     <a class="back" href="../">&larr; Back to Foxglove &amp; Five</a>
@@ -60,6 +94,19 @@
       &copy; <span id="yr"></span> Foxglove &amp; Five &middot; Part of the Forest &amp; Flock family.
     </footer>
   </div>
-  <script>document.getElementById('yr').textContent=new Date().getFullYear();</script>
+  <script>
+    document.getElementById('yr').textContent=new Date().getFullYear();
+    function sendEntry(e){
+      e.preventDefault();
+      var nm=document.getElementById('nm').value.trim();
+      var em=document.getElementById('em').value.trim();
+      var rd=document.getElementById('rd').value.trim();
+      var wy=document.getElementById('wy').value.trim();
+      var subj='Reading Society entry - '+(nm||'new reader');
+      var body='Name: '+nm+'\nEmail: '+em+'\nCurrently reading: '+(rd||'-')+'\n\nAbout me / why I\'d like to join:\n'+(wy||'-')+'\n\n(Sent from the Reading Society entry form.)';
+      window.location.href='mailto:erinkae.linscott@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
+      return false;
+    }
+  </script>
 </body>
 </html>
