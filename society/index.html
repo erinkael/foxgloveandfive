@@ -24,7 +24,16 @@
   header h1{font-size:2.1rem; margin:0;}
   .tagline{color:var(--warm-gray); margin:10px 0 0;}
   .divider{width:64px; height:2px; background:var(--gold); border:0; margin:30px auto;}
-  .lede{font-size:1.08rem; text-align:center; max-width:520px; margin:0 auto 30px;}
+  .lede{font-size:1.08rem; text-align:center; max-width:520px; margin:0 auto 26px;}
+
+  .perks{
+    background:#fff; border:1px solid var(--soft-gray); border-radius:12px;
+    padding:22px 26px; margin:0 auto 26px; max-width:560px;
+  }
+  .perks h2{font-size:1.15rem; margin:0 0 12px; text-align:center; color:var(--navy);}
+  .perks ul{list-style:none; margin:0; padding:0;}
+  .perks li{padding:7px 0 7px 30px; position:relative; color:var(--navy); font-size:1rem;}
+  .perks li span{position:absolute; left:0; top:6px;}
 
   /* The entry form embeds here. Until M's questions + the form-handler (Tally/Google) are picked,
      this is the placeholder slot. Swap the .form-slot contents for the iframe embed. */
@@ -63,7 +72,17 @@
 
     <hr class="divider">
 
-    <p class="lede">Membership is by entry. Tell us a little about yourself and what you are reading, and we will be in touch.</p>
+    <p class="lede">Membership is by entry - a small, warm circle for people who love books. Tell us a little about your reading life, and we will be in touch.</p>
+
+    <div class="perks">
+      <h2>What members receive</h2>
+      <ul>
+        <li><span>💌</span> A Reading Society membership card, yours to keep</li>
+        <li><span>📚</span> First look at new bookish goodies - bookmarks, reading logs, the Book Tarot, blind-date-with-a-book kits</li>
+        <li><span>✨</span> Curated reading suggestions, picked with you in mind</li>
+        <li><span>🤍</span> A cozy little circle of fellow readers</li>
+      </ul>
+    </div>
 
     <div class="form-slot">
       <form id="entry" onsubmit="return sendEntry(event)">
@@ -76,11 +95,15 @@
           <input id="em" type="email" required autocomplete="email">
         </div>
         <div class="field">
-          <label for="rd">What are you reading right now?</label>
-          <input id="rd" type="text">
+          <label for="sh">The book on your shelf you most still want to read</label>
+          <input id="sh" type="text" placeholder="the one that keeps waiting for you...">
         </div>
         <div class="field">
-          <label for="wy">A little about you, or why you'd like to join <span style="font-weight:400;color:var(--warm-gray)">(optional)</span></label>
+          <label for="se">Your reading season - what are you reaching for lately?</label>
+          <input id="se" type="text" placeholder="cozy mysteries · big fantasy · slow literary · romance...">
+        </div>
+        <div class="field">
+          <label for="wy">Anything else you'd like us to know <span style="font-weight:400;color:var(--warm-gray)">(optional)</span></label>
           <textarea id="wy"></textarea>
         </div>
         <button class="submit" type="submit">Request my place &rarr;</button>
@@ -100,10 +123,11 @@
       e.preventDefault();
       var nm=document.getElementById('nm').value.trim();
       var em=document.getElementById('em').value.trim();
-      var rd=document.getElementById('rd').value.trim();
+      var sh=document.getElementById('sh').value.trim();
+      var se=document.getElementById('se').value.trim();
       var wy=document.getElementById('wy').value.trim();
       var subj='Reading Society entry - '+(nm||'new reader');
-      var body='Name: '+nm+'\nEmail: '+em+'\nCurrently reading: '+(rd||'-')+'\n\nAbout me / why I\'d like to join:\n'+(wy||'-')+'\n\n(Sent from the Reading Society entry form.)';
+      var body='Name: '+nm+'\nEmail: '+em+'\n\nThe book on my shelf I most want to read: '+(sh||'-')+'\nMy reading season: '+(se||'-')+'\n\nAnything else:\n'+(wy||'-')+'\n\n(Sent from the Reading Society entry form.)';
       window.location.href='mailto:erinkae.linscott@gmail.com?subject='+encodeURIComponent(subj)+'&body='+encodeURIComponent(body);
       return false;
     }
